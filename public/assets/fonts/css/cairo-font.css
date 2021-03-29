@@ -1,0 +1,28 @@
+@font-face {
+  font-family: 'Cairo-Regular';
+  src: url('../Cairo-Regular.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
+.hero-section .wrapper  p{
+  font-family: 'Cairo-Regular';
+  font-size: 1.5rem !important;
+  color: #fff;
+ 
+}
+
+.hero-section .wrapper  span{
+  font-family: 'Cairo-Regular';
+  color: #fff;
+  font-size: 1.2rem;
+  font-style: italic;
+}
+
+.section-heading p{
+  font-family: 'Cairo-Regular';
+  font-size: 1.4rem !important;
+}
+
+

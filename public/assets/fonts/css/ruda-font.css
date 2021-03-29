@@ -1,0 +1,21 @@
+@font-face {
+    font-family: 'Ruda Black';
+    src: url('../Ruda-Black.ttf');
+    font-weight: normal;
+	font-style: normal;
+  }
+
+  .hero-section .wrapper  h1{
+    font-family: 'Ruda Black';
+    font-size: 4.2rem !important;
+    color: #fff;
+    line-height: 45px;
+  }
+
+  .section-heading h2{
+    font-family: 'Ruda Black';
+    font-size: 3.8rem !important;
+    line-height: 45px;
+  }
+  
+  
