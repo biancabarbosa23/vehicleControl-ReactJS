@@ -23,7 +23,7 @@ export default function Login() {
       const response = await api.post('/user/login', {
         email,
         senha: password,
-        type: 'aluno',
+        type: 'gestor',
       })
 
       login(response.data.token, response.data.user)
@@ -38,7 +38,7 @@ export default function Login() {
   }
 
   return (
-    <div className="form-body page-auth">
+    <div className="form-body page-auth-2">
       <div className="row">
         <div className="img-holder">
           <div className="bg"></div>
@@ -47,14 +47,14 @@ export default function Login() {
         <div className="form-holder">
           <div className="form-content">
             <div className="form-items">
-              <h3>Área do Aluno</h3>
+              <h3>Área do funcionário</h3>
               <p>
                 Cadastre seu veículo para poder utilizar o estacionamento da
                 nossa instituição.
               </p>
               <div className="page-links">
                 <a className="active">Login</a>
-                <a onClick={() => history.push('/aluno/cadastro')}>Cadastro</a>
+                <a onClick={() => history.push('/gestor/cadastro')}>Cadastro</a>
               </div>
               <form>
                 <input
@@ -80,7 +80,7 @@ export default function Login() {
                   >
                     Login
                   </button>{' '}
-                  <a onClick={() => history.push('/aluno/forgot')}>
+                  <a onClick={() => history.push('/gestor/forgot')}>
                     Esqueceu sua senha?
                   </a>
                 </div>

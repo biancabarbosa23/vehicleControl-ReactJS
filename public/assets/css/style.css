@@ -599,3 +599,116 @@ html {
 .section-how-work .featured-icon i {
   color: #ffff;
 }
+
+.swal2-popup {
+  font-size: 1.4rem !important;
+}
+
+.page-perfil {
+  background: #e5e6f0;
+  min-height: 100vh;
+}
+
+.page-perfil .header-perfil {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.page-perfil .header-perfil strong {
+  flex: 1;
+}
+
+#perfil {
+  padding: 60px 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+#perfil main {
+  margin-left: 30px;
+}
+
+@media (max-width: 1000px) {
+  #perfil {
+    flex-direction: column;
+  }
+
+  #perfil main {
+    margin-left: 0;
+    margin-top: 30px;
+  }
+
+  #perfil aside {
+    width: 100%;
+  }
+}
+
+aside.perfil-student {
+  width: 400px;
+  background: #fff;
+  box-shadow: 0 0 14px 0 rgba(0, 0, 0, 0.02);
+  border-radius: 2px;
+  padding: 30px 20px;
+}
+
+aside.perfil-student strong {
+  font-size: 20px;
+  text-align: center;
+  display: block;
+  color: #333;
+}
+
+aside.perfil-student form {
+  margin-top: 30px;
+}
+
+aside.perfil-student form .input-block + .input-block {
+  margin-top: 20px;
+}
+
+aside.perfil-student form .input-group {
+  margin-top: 20px;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1fr 1fr;
+}
+
+aside.perfil-student form .input-group .input-block {
+  margin-top: 0;
+}
+
+aside.perfil-student form .input-block label {
+  color: #acacac;
+  font-size: 14px;
+  font-weight: bold;
+  display: flex;
+}
+
+aside.perfil-student form .input-block input {
+  width: 100%;
+  height: 32px;
+  font-size: 14px;
+  color: #666;
+  border: 0;
+  border-bottom: 1px solid #eee;
+}
+
+aside.perfil-student form button[type='submit'] {
+  width: 100%;
+  border: 0;
+  margin-top: 30px;
+  background: #23394a;
+  border-radius: 2px;
+  padding: 15px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+aside.perfil-student form button[type='submit']:hover {
+  background: #6931ca;
+}

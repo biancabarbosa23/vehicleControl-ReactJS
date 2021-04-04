@@ -1,17 +1,17 @@
 {
-  "course": [
+  "courses": [
     { "value": "Análise e Desenvolvimento de Sistemas ", "key": 1 },
     { "value": "Eventos", "key": 2 },
     { "value": "Gestão da Tecnologia da Informação", "key": 3 },
     { "value": "Gestão Empresarial", "key": 4 },
     { "value": "Mecatrônica Industrial", "key": 5 }
   ],
-  "period": [
+  "periods": [
     { "value": "Manhã", "key": 1 },
     { "value": "Tarde", "key": 2 },
     { "value": "Noite", "key": 3 }
   ],
-  "semester": [
+  "semesters": [
     { "value": "1 semestre", "key": 1 },
     { "value": "2 semestre", "key": 2 },
     { "value": "3 semestre", "key": 3 },

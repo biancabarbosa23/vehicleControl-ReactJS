@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import { alertError, alertInfo, alertSuccess } from '../../../utils/Alert'
+import { courses, periods, semesters } from '../../../utils/student.json'
+import { cpfMask } from '../../../utils/Mask'
 import api from '../../../services/api'
 import { login } from '../../../services/auth'
 
@@ -9,27 +11,50 @@ import IuPassword from '../../../components/InputPassword'
 
 export default function Login() {
   const history = useHistory()
+  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
+  const [cpf, setCpf] = useState('')
+  const [course, setCourse] = useState('')
+  const [period, setPeriod] = useState('')
+  const [semester, setSemester] = useState('')
   const [password, setPassword] = useState('')
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      if (email === '' || password === '') {
+      if (
+        name === '' ||
+        email === '' ||
+        password === '' ||
+        cpf === '' ||
+        course === '' ||
+        period === '' ||
+        semester === ''
+      ) {
         alertInfo('Por favor preencha todos os campos!')
         return
       }
 
-      const response = await api.post('/aluno/login', {
+      const response = await api.post('/student/register', {
+        nome: name,
         email,
         senha: password,
+        cpf: cpf.replace(/[^0-9s]/g, ''),
+        curso: course,
+        periodo: period,
+        semestre: semester,
       })
 
       login(response.data.token, response.data.user)
 
-      alertSuccess(`Usuário ${response.data.user.name} Logado com sucesso`)
+      alertSuccess(`Usuário cadastrado com sucesso`)
 
+      setName('')
       setEmail('')
+      setCpf('')
+      setCourse('')
+      setPeriod('')
+      setSemester('')
       setPassword('')
     } catch (response) {
       alertError(response.data.error)
@@ -38,13 +63,6 @@ export default function Login() {
 
   return (
     <div className="form-body page-auth">
-      <div className="website-logo">
-        <a href="">
-          <div className="logo">
-            <img className="logo-size" src="../img/logo2.png" alt="" />
-          </div>
-        </a>
-      </div>
       <div className="row">
         <div className="img-holder">
           <div className="bg"></div>
@@ -65,6 +83,15 @@ export default function Login() {
               <form>
                 <input
                   className="form-control"
+                  type="nome"
+                  name="nome"
+                  placeholder="Nome: "
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
+                <input
+                  className="form-control"
                   type="email"
                   name="email"
                   placeholder="E-mail: "
@@ -77,39 +104,54 @@ export default function Login() {
                   type="cpf"
                   name="cpf"
                   placeholder="CPF: "
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={cpf}
+                  onChange={(e) => setCpf(cpfMask(e.target.value))}
                   required
                 />
                 <select
                   className="form-control"
                   type="text"
                   name="curso"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={course}
+                  onChange={(e) => setCourse(e.target.value)}
                   required
                 >
-                  <option>Escolha um curso:</option>
+                  <option value="">Selecione um curso ...</option>
+                  {courses.map((course) => (
+                    <option key={course.key} value={course.value}>
+                      {course.value}
+                    </option>
+                  ))}
                 </select>
                 <select
                   className="form-control"
                   type="text"
                   name="periodo"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={period}
+                  onChange={(e) => setPeriod(e.target.value)}
                   required
                 >
-                  <option>Escolha um período:</option>
+                  <option value="">Selecione um periodo ...</option>
+                  {periods.map((period) => (
+                    <option key={period.key} value={period.value}>
+                      {period.value}
+                    </option>
+                  ))}
                 </select>
                 <select
                   className="form-control"
                   type="text"
                   name="semestre"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
+                  value={semester}
+                  onChange={(e) => setSemester(e.target.value)}
                   required
                 >
-                  <option>Escolha um semestre:</option>
+                  <option value="">Selecione um semestre ...</option>
+                  {semesters.map((semester) => (
+                    <option key={semester.key} value={semester.value}>
+                      {semester.value}
+                    </option>
+                  ))}
                 </select>
                 <IuPassword
                   value={password}
@@ -122,11 +164,8 @@ export default function Login() {
                     className="ibtn"
                     onClick={(e) => handleSubmit(e)}
                   >
-                    Login
+                    Cadastrar
                   </button>{' '}
-                  <a onClick={() => history.push('/forgot')}>
-                    Esqueceu sua senha?
-                  </a>
                 </div>
               </form>
             </div>

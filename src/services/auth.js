@@ -1,10 +1,10 @@
-export const getToken = () => localStorage.getItem('jwt')
+export const getToken = () => localStorage.getItem('@fatec/jwt')
 export const login = (token, user) => {
-  localStorage.setItem('jwt', token)
-  localStorage.setItem('dataUser', user)
+  localStorage.setItem('@fatec/jwt', token)
+  localStorage.setItem('@fatec/dataUser', user)
 }
 export const logout = () => {
-  localStorage.removeItem('jwt')
+  localStorage.removeItem('@fatec/jwt')
 }
 
-export const isAuthenticated = () => localStorage.getItem('jwt') !== null
+export const isAuthenticated = () => localStorage.getItem('@fatec/jwt') !== null

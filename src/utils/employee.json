@@ -1,0 +1,8 @@
+{
+  "occupations": [
+    { "value": "Professor ", "key": 1 },
+    { "value": "Coordenador", "key": 2 },
+    { "value": "Diretoria", "key": 3 },
+    { "value": "Outros", "key": 4 }
+  ]
+}

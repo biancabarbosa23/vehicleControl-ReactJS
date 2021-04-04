@@ -13,13 +13,16 @@
 /* -----------------------------------
     1 - General Styles
 ------------------------------------*/
-.form-body {
+.form-body.page-auth {
   background-color: #23394a;
+}
+
+.form-body.page-auth-2 {
+  background-color: #8b0000;
 }
 
 .website-logo {
   width: 550px;
-  height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -108,6 +111,10 @@
   background-color: #23394a;
 }
 
+.page-auth-2 .form-content {
+  background-color: #a52a2a;
+}
+
 .form-content .form-group {
   color: #fff;
 }
@@ -157,12 +164,35 @@
   color: #dedbdb;
 }
 
+.page-auth-2 .form-content input,
+.page-auth-2 .form-content select,
+.page-auth-2 .form-content .dropdown-toggle.btn-default {
+  border: 0;
+  background-color: #fff;
+  color: #000;
+}
+
 .form-content input:hover,
 .form-content input:focus,
 .form-content .dropdown-toggle.btn-default:hover,
 .form-content .dropdown-toggle.btn-default:focus {
   border: 0;
   background-color: #fff;
+  color: #000;
+}
+
+.page-auth-2 .form-content input::placeholder {
+  color: #000;
+  opacity: 0.8;
+  font-weight: 400;
+}
+
+.page-auth-2 .form-content input:hover,
+.page-auth-2 .form-content input:focus,
+.page-auth-2 .form-content .dropdown-toggle.btn-default:hover,
+.page-auth-2 .form-content .dropdown-toggle.btn-default:focus {
+  border: 0;
+  background-color: #ddd;
   color: #000;
 }
 
