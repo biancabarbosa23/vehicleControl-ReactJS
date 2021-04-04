@@ -28,7 +28,7 @@ export default function Login() {
 
       login(response.data.token, response.data.user)
 
-      alertSuccess(`Usuário Logado com sucesso`)
+      history.push('/aluno/dashboard')
 
       setEmail('')
       setPassword('')

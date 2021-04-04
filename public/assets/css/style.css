@@ -605,7 +605,7 @@ html {
 }
 
 .page-perfil {
-  background: #e5e6f0;
+  background: #708090;
   min-height: 100vh;
 }
 
@@ -653,6 +653,30 @@ aside.perfil-student {
   padding: 30px 20px;
 }
 
+aside.perfil-student .button-exit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+aside.perfil-student .button-exit p {
+  position: absolute;
+  margin: 30px 0 0 0;
+  font-size: 12px !important;
+}
+
+aside.perfil-student .header-perfil a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+aside.perfil-student .header-perfil a p {
+  position: absolute;
+  margin: 20px 0 0 0;
+  font-size: 12px !important;
+}
+
 aside.perfil-student strong {
   font-size: 20px;
   text-align: center;
@@ -686,13 +710,22 @@ aside.perfil-student form .input-block label {
   display: flex;
 }
 
-aside.perfil-student form .input-block input {
+aside.perfil-student form .input-block input,
+aside.perfil-student form .input-block select {
   width: 100%;
   height: 32px;
-  font-size: 14px;
-  color: #666;
+  font-size: 16px;
+  background-color: #e2e2e456;
+  color: #000;
   border: 0;
   border-bottom: 1px solid #eee;
+}
+
+aside.perfil-student form .input-block input:disabled,
+aside.perfil-student form .input-block select:disabled {
+  color: #666;
+  background-color: transparent;
+  opacity: 1;
 }
 
 aside.perfil-student form button[type='submit'] {
@@ -710,5 +743,5 @@ aside.perfil-student form button[type='submit'] {
 }
 
 aside.perfil-student form button[type='submit']:hover {
-  background: #6931ca;
+  background: #0093ff;
 }
