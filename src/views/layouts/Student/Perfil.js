@@ -1,55 +1,39 @@
 import React, { useState, useEffect } from 'react'
-import { useHistory } from 'react-router-dom'
 
 import { cpfMask } from '../../../utils/Mask'
 import { courses, periods, semesters } from '../../../utils/student.json'
-import { logout } from '../../../services/auth'
 
-import ExitToAppIcon from '@material-ui/icons/ExitToApp'
-
-function DevForm({
-  name,
-  setName,
-  email,
-  setEmail,
-  cpf,
-  setCpf,
-  course,
-  setCourse,
-  period,
-  setPeriod,
-  semester,
-  setSemester,
-  handleSubmit,
-  edit,
-  setEdit,
-}) {
-  const history = useHistory()
-  const [messageExit, setMessageExit] = useState(false)
+function DevForm({ student, setStudent, handleSubmit, edit, setEdit }) {
   const [messageEdit, setMessageEdit] = useState(false)
+  const [oldData, setOldData] = useState({})
 
-  const handleLogout = () => {
-    logout()
-    history.push('/aluno/login')
+  useEffect(() => {
+    setOldData(student)
+  }, [])
+
+  const handleChangeValue = async (e) => {
+    const name = e.target.name
+    let value
+
+    name === 'cpf'
+      ? (value = cpfMask(e.target.value))
+      : (value = e.target.value)
+
+    await setStudent((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }))
+  }
+
+  const handleCancel = () => {
+    setEdit(false)
+    setStudent(oldData)
   }
 
   return (
     <aside className="perfil-student">
       <div className="header-perfil">
-        <div className="button-exit">
-          <ExitToAppIcon
-            style={{
-              fontSize: 30,
-              transform: `rotate(180deg)`,
-              cursor: 'pointer',
-            }}
-            onClick={() => handleLogout()}
-            onMouseOver={() => setMessageExit(true)}
-            onMouseOut={() => setMessageExit(false)}
-          />
-          {messageExit === true && <p>Sair</p>}
-        </div>
-        <strong>PERFIL</strong>
+        <strong>{student.name}</strong>
         <a
           onClick={() => setEdit(true)}
           onMouseOver={() => setMessageEdit(true)}
@@ -58,32 +42,33 @@ function DevForm({
           <i
             className="fa fa-pen "
             aria-hidden="true"
-            style={{ fontSize: 20 }}
+            style={{ fontSize: 20, color: '#000' }}
           ></i>
           {messageEdit === true && <p>Editar</p>}
         </a>
       </div>
 
       <form>
-        <div className="input-block">
-          <label htmlFor="name">Nome</label>
-          <input
-            name="name"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-            disabled={!edit}
-          />
-        </div>
-
+        {edit && (
+          <div className="input-block">
+            <label htmlFor="name">Nome</label>
+            <input
+              name="name"
+              id="name"
+              value={student?.name}
+              onChange={(e) => handleChangeValue(e)}
+              required
+              disabled={!edit}
+            />
+          </div>
+        )}
         <div className="input-block">
           <label htmlFor="email">E-mail</label>
           <input
             name="email"
             id="emails"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={student?.email}
+            onChange={(e) => handleChangeValue(e)}
             required
             disabled={!edit}
           />
@@ -94,8 +79,8 @@ function DevForm({
           <input
             name="cpf"
             id="cpf"
-            value={cpfMask(cpf)}
-            onChange={(e) => setCpf(cpfMask(e.target.value))}
+            value={student?.cpf && cpfMask(student.cpf)}
+            onChange={(e) => handleChangeValue(e)}
             required
             disabled={!edit}
           />
@@ -105,13 +90,13 @@ function DevForm({
           <select
             name="course"
             id="course"
-            value={course}
-            onChange={(e) => setCourse(e.target.value)}
+            value={student?.course}
+            onChange={(e) => handleChangeValue(e)}
             required
             disabled={!edit}
           >
             {courses.map((course) => (
-              <option key={course.key} value={course.value}>
+              <option key={course?.key} value={course.value}>
                 {course.value}
               </option>
             ))}
@@ -123,8 +108,8 @@ function DevForm({
             <select
               name="semester"
               id="semester"
-              value={semester}
-              onChange={(e) => setSemester(e.target.value)}
+              value={student?.semester}
+              onChange={(e) => handleChangeValue(e)}
               required
               disabled={!edit}
             >
@@ -140,8 +125,8 @@ function DevForm({
             <select
               name="period"
               id="period"
-              value={period}
-              onChange={(e) => setPeriod(e.target.value)}
+              value={student?.period}
+              onChange={(e) => handleChangeValue(e)}
               required
               disabled={!edit}
             >
@@ -154,9 +139,12 @@ function DevForm({
           </div>
         </div>
         {edit === true && (
-          <button type="submit" onClick={(e) => handleSubmit(e)}>
-            Salvar Alterações
-          </button>
+          <div className="div-button">
+            <button type="submit" onClick={(e) => handleSubmit(e)}>
+              Salvar Alterações
+            </button>
+            <a onClick={() => handleCancel()}>Cancelar</a>
+          </div>
         )}
       </form>
     </aside>

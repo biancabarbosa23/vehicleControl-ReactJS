@@ -2,8 +2,6 @@ import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import { alertError, alertInfo, alertSuccess } from '../../../utils/Alert'
-import { cpfMask } from '../../../utils/Mask'
-import { occupations } from '../../../utils/employee.json'
 import api from '../../../services/api'
 import { login } from '../../../services/auth'
 
@@ -11,42 +9,28 @@ import IuPassword from '../../../components/InputPassword'
 
 export default function Login() {
   const history = useHistory()
-  const [name, setName] = useState('')
   const [email, setEmail] = useState('')
-  const [cpf, setCpf] = useState('')
-  const [occupation, setOccupation] = useState('')
   const [password, setPassword] = useState('')
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      if (
-        name === '' ||
-        email === '' ||
-        password === '' ||
-        cpf === '' ||
-        occupation === ''
-      ) {
+      if (email === '' || password === '') {
         alertInfo('Por favor preencha todos os campos!')
         return
       }
 
-      const response = await api.post('/employee/register', {
-        nome: name,
+      const response = await api.post('/user/login', {
         email,
         senha: password,
-        cpf: cpf.replace(/[^0-9s]/g, ''),
-        funcao: occupation,
+        type: 'aluno',
       })
 
-      login(response.data.token, response.data.user)
+      login(response.data.token, response.data.user, '1')
 
-      alertSuccess(`Usuário cadastrado com sucesso`)
+      history.push('/aluno/dashboard')
 
-      setName('')
       setEmail('')
-      setCpf('')
-      setOccupation('')
       setPassword('')
     } catch (response) {
       alertError(response.data.error)
@@ -54,7 +38,7 @@ export default function Login() {
   }
 
   return (
-    <div className="form-body page-auth-2">
+    <div className="form-body page-auth">
       <div className="row">
         <div className="img-holder">
           <div className="bg"></div>
@@ -63,25 +47,16 @@ export default function Login() {
         <div className="form-holder">
           <div className="form-content">
             <div className="form-items">
-              <h3>Cadastro de Funcionário</h3>
+              <h3>Área do Aluno</h3>
               <p>
                 Cadastre seu veículo para poder utilizar o estacionamento da
                 nossa instituição.
               </p>
               <div className="page-links">
-                <a onClick={() => history.push('/gestor/login')}>Login</a>
-                <a className="active">Cadastro</a>
+                <a className="active">Login</a>
+                <a onClick={() => history.push('/aluno/cadastro')}>Cadastro</a>
               </div>
               <form>
-                <input
-                  className="form-control"
-                  type="nome"
-                  name="nome"
-                  placeholder="Nome: "
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                />
                 <input
                   className="form-control"
                   type="email"
@@ -91,43 +66,23 @@ export default function Login() {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                 />
-                <input
-                  className="form-control"
-                  type="cpf"
-                  name="cpf"
-                  placeholder="CPF: "
-                  value={cpf}
-                  onChange={(e) => setCpf(cpfMask(e.target.value))}
-                  required
-                />
-                <select
-                  className="form-control"
-                  type="text"
-                  name="curso"
-                  value={occupation}
-                  onChange={(e) => setOccupation(e.target.value)}
-                  required
-                >
-                  <option value="">Selecione uma função ...</option>
-                  {occupations.map((occupation) => (
-                    <option key={occupation.key} value={occupation.value}>
-                      {occupation.value}
-                    </option>
-                  ))}
-                </select>
                 <IuPassword
                   value={password}
                   setValue={setPassword}
                   placeHolder="Senha:"
                 />
+
                 <div className="form-button">
                   <button
                     id="submit"
                     className="ibtn"
                     onClick={(e) => handleSubmit(e)}
                   >
-                    Cadastrar
+                    Login
                   </button>{' '}
+                  <a onClick={() => history.push('/aluno/forgot')}>
+                    Esqueceu sua senha?
+                  </a>
                 </div>
               </form>
             </div>

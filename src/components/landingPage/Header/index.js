@@ -36,7 +36,8 @@ export default function Header() {
                   </button>
 
                   <button
-                    onClick={(e) => handleNextPage(e, '/funcionario/login')}
+                    className="color-2"
+                    onClick={(e) => handleNextPage(e, '/gestor/login')}
                   >
                     Funcionário
                   </button>

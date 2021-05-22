@@ -1,14 +1,15 @@
 import PageMain from '../views/pages/PageMain'
-import LoginStudent from '../views/pages/Aluno/Login'
-import RegisterStudent from '../views/pages/Aluno/Register'
-import ForgotStudent from '../views/pages/Aluno/Forgot'
-import ResetStudent from '../views/pages/Aluno/Reset'
-import HomeStudent from '../views/pages/Aluno/Home'
+import LoginStudent from '../views/pages/Student/Login'
+import RegisterStudent from '../views/pages/Student/Register'
+import ForgotStudent from '../views/pages/Student/Forgot'
+import ResetStudent from '../views/pages/Student/Reset'
+import HomeStudent from '../views/pages/Student/Home'
 
-import LoginGestor from '../views/pages/Gestor/Login'
-import RegisterGestor from '../views/pages/Gestor/Register'
-import ForgotGestor from '../views/pages/Gestor/Forgot'
-import ResetGestor from '../views/pages/Gestor/Reset'
+import LoginGestor from '../views/pages/Employee/Login'
+import RegisterGestor from '../views/pages/Employee/Register'
+import ForgotGestor from '../views/pages/Employee/Forgot'
+import ResetGestor from '../views/pages/Employee/Reset'
+import HomeEmployee from '../views/pages/Employee/Home'
 
 const routing = {
   public: [
@@ -48,9 +49,17 @@ const routing = {
       path: '/gestor/reset/:token',
       component: ResetGestor,
     },
+  ],
+  student: [
     {
       path: '/aluno/dashboard',
       component: HomeStudent,
+    },
+  ],
+  employee: [
+    {
+      path: '/gestor/dashboard',
+      component: HomeEmployee,
     },
   ],
 }

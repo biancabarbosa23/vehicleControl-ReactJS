@@ -2,8 +2,9 @@ import React, { useState } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import { alertError, alertInfo, alertSuccess } from '../../../utils/Alert'
-import { courses, periods, semesters } from '../../../utils/student.json'
 import { cpfMask } from '../../../utils/Mask'
+import { validateCPF, validateEmail } from '../../../utils/validator'
+import { occupations } from '../../../utils/employee.json'
 import api from '../../../services/api'
 import { login } from '../../../services/auth'
 
@@ -14,9 +15,7 @@ export default function Login() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [cpf, setCpf] = useState('')
-  const [course, setCourse] = useState('')
-  const [period, setPeriod] = useState('')
-  const [semester, setSemester] = useState('')
+  const [occupation, setOccupation] = useState('')
   const [password, setPassword] = useState('')
 
   const handleSubmit = async (e) => {
@@ -27,34 +26,38 @@ export default function Login() {
         email === '' ||
         password === '' ||
         cpf === '' ||
-        course === '' ||
-        period === '' ||
-        semester === ''
+        occupation === ''
       ) {
         alertInfo('Por favor preencha todos os campos!')
         return
       }
 
-      const response = await api.post('/student/register', {
+      if (validateEmail(email) === false) {
+        alertInfo('Por favor digite um E-mail valido!')
+        return
+      }
+
+      if (validateCPF(cpf) === false) {
+        alertInfo('Por favor digite um CPF valido!')
+        return
+      }
+
+      const response = await api.post('/employee', {
         nome: name,
         email,
         senha: password,
         cpf: cpf.replace(/[^0-9s]/g, ''),
-        curso: course,
-        periodo: period,
-        semestre: semester,
+        funcao: occupation,
       })
 
-      login(response.data.token, response.data.user)
+      login(response.data.token, response.data.user, '2')
 
-      alertSuccess(`Usuário cadastrado com sucesso`)
+      history.push('/gestor/dashboard')
 
       setName('')
       setEmail('')
       setCpf('')
-      setCourse('')
-      setPeriod('')
-      setSemester('')
+      setOccupation('')
       setPassword('')
     } catch (response) {
       alertError(response.data.error)
@@ -62,7 +65,7 @@ export default function Login() {
   }
 
   return (
-    <div className="form-body page-auth">
+    <div className="form-body page-auth-2">
       <div className="row">
         <div className="img-holder">
           <div className="bg"></div>
@@ -71,13 +74,13 @@ export default function Login() {
         <div className="form-holder">
           <div className="form-content">
             <div className="form-items">
-              <h3>Cadastro de Aluno</h3>
+              <h3>Cadastro de Funcionário</h3>
               <p>
                 Cadastre seu veículo para poder utilizar o estacionamento da
                 nossa instituição.
               </p>
               <div className="page-links">
-                <a onClick={() => history.push('/aluno/login')}>Login</a>
+                <a onClick={() => history.push('/gestor/login')}>Login</a>
                 <a className="active">Cadastro</a>
               </div>
               <form>
@@ -112,44 +115,14 @@ export default function Login() {
                   className="form-control"
                   type="text"
                   name="curso"
-                  value={course}
-                  onChange={(e) => setCourse(e.target.value)}
+                  value={occupation}
+                  onChange={(e) => setOccupation(e.target.value)}
                   required
                 >
-                  <option value="">Selecione um curso ...</option>
-                  {courses.map((course) => (
-                    <option key={course.key} value={course.value}>
-                      {course.value}
-                    </option>
-                  ))}
-                </select>
-                <select
-                  className="form-control"
-                  type="text"
-                  name="periodo"
-                  value={period}
-                  onChange={(e) => setPeriod(e.target.value)}
-                  required
-                >
-                  <option value="">Selecione um periodo ...</option>
-                  {periods.map((period) => (
-                    <option key={period.key} value={period.value}>
-                      {period.value}
-                    </option>
-                  ))}
-                </select>
-                <select
-                  className="form-control"
-                  type="text"
-                  name="semestre"
-                  value={semester}
-                  onChange={(e) => setSemester(e.target.value)}
-                  required
-                >
-                  <option value="">Selecione um semestre ...</option>
-                  {semesters.map((semester) => (
-                    <option key={semester.key} value={semester.value}>
-                      {semester.value}
+                  <option value="">Selecione uma função ...</option>
+                  {occupations.map((occupation) => (
+                    <option key={occupation.key} value={occupation.value}>
+                      {occupation.value}
                     </option>
                   ))}
                 </select>

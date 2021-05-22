@@ -13,7 +13,7 @@ export default function Navbar() {
 
   $(window).scroll(function () {
     if ($(this).scrollTop() > 100) {
-      $('.navigation').css('background', '#8b0000 ')
+      $('.navigation').css('background', '#242c39 ')
       $('.navigation').css('opacity', '0.65')
     } else {
       $('.navigation').css('background', 'none')

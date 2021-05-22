@@ -1,0 +1,21 @@
+{
+  "infos": { "plate": "", "brand": "", "color": "", "model": "", "type": "" },
+  "types": [
+    {
+      "value": "",
+      "key": 0
+    },
+    {
+      "value": "Carro",
+      "key": 1
+    },
+    {
+      "value": "Moto",
+      "key": 2
+    },
+    {
+      "value": "Caminhonete",
+      "key": 3
+    }
+  ]
+}

@@ -1,16 +1,18 @@
+@font-face {
+  font-family: 'Harabara-Mais';
+  src: url('../Harabara-Mais-Light.otf');
+  font-weight: normal;
+  font-style: normal;
+}
 
-  @font-face {
-    font-family: 'Harabara-Mais';
-    src: url('../Harabara-Mais-Light.otf');
-    font-weight: normal;
-	font-style: normal;
-  }
-  
+.nav.navigation-links.animate li a {
+  font-family: 'Harabara-Mais';
+  font-size: 1.6rem !important;
+  letter-spacing: 1px;
+}
 
-  .nav.navigation-links.animate li a {
-    font-family: 'Harabara-Mais';
-    font-size: 1.6rem !important;
-    letter-spacing: 1px;
-  }
-
- 
+.nav-bar-perfil ul li a {
+  font-family: 'Harabara-Mais';
+  font-size: 1.6rem !important;
+  letter-spacing: 1px;
+}
