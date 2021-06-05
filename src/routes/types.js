@@ -4,6 +4,23 @@ import { isAuthenticated, getAccess } from '../services/auth'
 
 import AccessDenied from '../views/pages/PageError/AccessDenied'
 
+export const AdminRoute = ({ component: Component, ...rest }) => (
+  <Route
+    {...rest}
+    render={(props) =>
+      isAuthenticated() && getAccess() === '999' ? (
+        <Component {...props} />
+      ) : isAuthenticated() && getAccess() !== '999' ? (
+        <>
+          <AccessDenied />
+        </>
+      ) : (
+        <Redirect to={{ pathname: '/admin/login' }} />
+      )
+    }
+  />
+)
+
 export const StudentRoute = ({ component: Component, ...rest }) => (
   <Route
     {...rest}

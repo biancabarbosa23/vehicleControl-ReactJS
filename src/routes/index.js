@@ -4,7 +4,8 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import routing from './routing'
 import GlobalStyles from '../views/assets/globalStyle'
 
-import { StudentRoute, EmployeeRoute } from './types'
+import { StudentRoute, EmployeeRoute, AdminRoute } from './types'
+import Dashboard from '../views/layouts/Dashboard'
 
 export default function Routes() {
   return (
@@ -36,6 +37,7 @@ export default function Routes() {
               component={route.component}
             />
           ))}
+          <AdminRoute path="/dashboard" component={Dashboard} />
         </Switch>
       </Router>
     </Suspense>

@@ -92,7 +92,7 @@ export default function Perfil({
           />
         </div>
         <div className="input-block">
-          <label htmlFor="cpf">CPF</label>
+          <label htmlFor="cpf">Função</label>
           <select
             name="function"
             id="function"

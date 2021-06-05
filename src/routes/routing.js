@@ -11,6 +11,12 @@ import ForgotGestor from '../views/pages/Employee/Forgot'
 import ResetGestor from '../views/pages/Employee/Reset'
 import HomeEmployee from '../views/pages/Employee/Home'
 
+import LoginAdmin from '../views/pages/Dashboard/Login'
+import ForgotAdmin from '../views/pages/Dashboard/Forgot'
+import ResetAdmin from '../views/pages/Dashboard/Reset'
+
+import Home from '../views/pages/Dashboard/Home'
+
 const routing = {
   public: [
     {
@@ -49,6 +55,18 @@ const routing = {
       path: '/gestor/reset/:token',
       component: ResetGestor,
     },
+    {
+      path: '/admin/login',
+      component: LoginAdmin,
+    },
+    {
+      path: '/admin/forgot',
+      component: ForgotAdmin,
+    },
+    {
+      path: '/admin/reset/:token',
+      component: ResetAdmin,
+    },
   ],
   student: [
     {
@@ -60,6 +78,26 @@ const routing = {
     {
       path: '/gestor/dashboard',
       component: HomeEmployee,
+    },
+  ],
+  admin: [
+    {
+      path: '/dashboard',
+      exact: true,
+      name: 'Home',
+      component: Home,
+    },
+    {
+      path: '/dashboard/veiculos',
+      exact: true,
+      name: 'Veículos',
+      component: Home,
+    },
+    {
+      path: '/dashboard/acessos',
+      exact: true,
+      name: 'Acessos',
+      component: Home,
     },
   ],
 }

@@ -42,6 +42,7 @@ body {
   margin-left: 0;
   margin-right: 0;
   height: 100%;
+  display: block;
 }
 
 .website-logo {
@@ -424,7 +425,7 @@ body {
 .form-content select,
 .form-content .dropdown-toggle.btn-default {
   width: 100%;
-  padding: 9px 20px;
+  padding: 8px 20px;
   text-align: left;
   border: 0;
   outline: 0;
