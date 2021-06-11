@@ -37,15 +37,15 @@ export default function Forgot() {
         return
       }
 
-      const response = await api.get(`/usuarios/recoverPassword/${email}`)
+      const response = await api.post(`/admin/forgot-password`, email)
 
-      alertSuccess('E-mail enviado com sucesso')
+      alertSuccess(response.data.message)
       history.push('/admin/reset')
 
       setEmail('')
     } catch (response) {
       setDisabled(false)
-      alertError(response.data.message)
+      alertError(response.data.error)
     }
   }
 

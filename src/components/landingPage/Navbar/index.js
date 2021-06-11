@@ -45,7 +45,7 @@ export default function Navbar() {
             {/* <!--end left--> */}
             <div className="right">
               <ul className="nav navigation-links animate">
-                <li>
+                {/* <li>
                   <a onClick={() => scrollTo('page-top')} className="scroll">
                     Home
                   </a>
@@ -69,7 +69,7 @@ export default function Navbar() {
                   <a onClick={() => scrollTo('page-top')} className="scroll">
                     Contact
                   </a>
-                </li>
+                </li> */}
               </ul>
               <div className="nav-btn" onClick={() => handleOpenMenu()}>
                 <figure></figure>

@@ -885,22 +885,22 @@ aside.vehicle .header-vehicle a {
 /*--- ADMIN AUTH PAGE ---*/
 /*---------------------------------------------*/
 .admin-auth .bg-gradient-info {
-  background: linear-gradient(87deg, #2db1e9, rgb(61, 128, 228)) !important;
+  background: transparent !important;
 }
 
 .admin-auth.bg-default {
-  background: linear-gradient(87deg, #2db1e9, rgb(61, 128, 228)) !important;
+  background: linear-gradient(87deg, #23394a, #362ce5) !important;
   min-height: 100vh;
 }
 
 .admin-auth .pb-7,
 .admin-auth .py-7 {
-  padding-bottom: 6rem !important;
+  padding-bottom: 3rem !important;
 }
 
 .admin-auth .pt-7,
 .admin-auth .py-7 {
-  padding-top: 7rem !important;
+  padding-top: 10rem !important;
 }
 
 .admin-auth .header {
@@ -957,7 +957,7 @@ aside.vehicle .header-vehicle a {
 
 .admin-auth .mt--8,
 .admin-auth .my--8 {
-  margin-top: -5rem !important;
+  margin-top: 0 !important;
 }
 
 .admin-auth .bg-secondary {
@@ -1116,4 +1116,27 @@ aside.vehicle .header-vehicle a {
     transform: scale(1);
     -webkit-transform: scale(1);
   }
+}
+
+.MuiTypography-h6 {
+  font-size: 1.75rem !important;
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  font-weight: 500;
+  line-height: 1.6;
+  letter-spacing: 0.0075em;
+}
+
+.MuiTablePagination-toolbar,
+.MTablePaginationInner-root-14 span,
+.MuiInputBase-root,
+.MuiTableCell-head {
+  font-size: 1.4rem !important;
+}
+
+.c-main .div-table {
+  width: 80%;
+}
+
+.c-main .div-table a {
+  text-decoration: underline;
 }

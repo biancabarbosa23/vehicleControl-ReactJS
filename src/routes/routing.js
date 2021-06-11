@@ -16,6 +16,8 @@ import ForgotAdmin from '../views/pages/Dashboard/Forgot'
 import ResetAdmin from '../views/pages/Dashboard/Reset'
 
 import Home from '../views/pages/Dashboard/Home'
+import Control from '../views/pages/Dashboard/Control'
+import Veiculos from '../views/pages/Dashboard/Veiculos'
 
 const routing = {
   public: [
@@ -91,13 +93,13 @@ const routing = {
       path: '/dashboard/veiculos',
       exact: true,
       name: 'Veículos',
-      component: Home,
+      component: Veiculos,
     },
     {
       path: '/dashboard/acessos',
       exact: true,
       name: 'Acessos',
-      component: Home,
+      component: Control,
     },
   ],
 }

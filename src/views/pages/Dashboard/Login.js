@@ -37,7 +37,7 @@ export default function Auth() {
         return
       }
 
-      const response = await api.post('/usuarios/auth', {
+      const response = await api.post('/admin/login', {
         email,
         senha: password,
       })
@@ -47,14 +47,14 @@ export default function Auth() {
         return
       }
 
-      login(response.data.token, response.data.dados, '7')
+      login(response.data.token, response.data.admin, '999')
 
       history.push('/dashboard')
 
       setEmail('')
       setPassword('')
     } catch (response) {
-      alertError(response.data.message)
+      alertError(response.data.error)
     }
   }
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 
 // reactstrap components
 import {
@@ -22,40 +22,67 @@ import AuthTemplate from '../../layouts/Auth'
 import api from '../../../services/api'
 import { alertError, alertInfo, alertSuccess } from '../../../utils/Alert'
 
-export default function Forgot() {
+export default function Reset() {
+  const { token } = useParams()
   const history = useHistory()
   const [email, setEmail] = useState('')
-  const [disabled, setDisabled] = useState(false)
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [visiblePass, setVisiblePass] = useState(false)
+  const [visibleConfirmPass, setVisibleConfirmPass] = useState(false)
+  const [visibleAlert, setVisibleAlert] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      setDisabled(true)
-      if (email === '') {
-        setDisabled(false)
-        alertInfo('Por favor informe o E-mail!')
+      setVisibleAlert(false)
+      if (password === '' || confirmPassword === '') {
+        alertInfo('Por favor preencha todos os campos!')
         return
       }
 
-      const response = await api.get(`/usuarios/recoverPassword/${email}`)
+      if (password !== confirmPassword) {
+        alertInfo('Confirmação de senha incorreta!')
+        return
+      }
 
-      alertSuccess('E-mail enviado com sucesso')
-      history.push('/admin/reset')
+      const response = await api.post('/admin/reset-password', {
+        token,
+        confirmarSenha: confirmPassword,
+        senha: password,
+      })
 
-      setEmail('')
+      if (response.data.success) {
+        setVisibleAlert(true)
+        setTimeout(function () {
+          history.push('/admin/login')
+        }, 5000)
+      }
+
+      setConfirmPassword('')
+      setPassword('')
     } catch (response) {
-      setDisabled(false)
-      alertError(response.data.message)
+      alertError(response.data.error)
     }
+  }
+
+  const handleVisiblePassword = (e) => {
+    e.preventDefault()
+
+    setVisiblePass(!visiblePass)
+  }
+
+  const handleVisibleConfirmPassword = (e) => {
+    e.preventDefault()
+
+    setVisibleConfirmPass(!visibleConfirmPass)
   }
 
   return (
     <>
       <AuthTemplate
         title={'Alteração de senha'}
-        text={
-          'Informe o E-mail cadastrado para enviar-mos o link de alteração de senha.'
-        }
+        text={'Por favor, confirme sua nova senha!'}
       >
         {/* Page content */}
         <Container className="mt--8 pb-5">
@@ -63,26 +90,87 @@ export default function Forgot() {
             <Col lg="5" md="8">
               <Card className="bg-secondary shadow border-0">
                 <CardBody className="px-lg-5 py-lg-5">
+                  {visibleAlert === true && (
+                    <div className="text-center">
+                      <p className="alert-success">
+                        Senha alterada com sucesso, redirecionando para a tela
+                        de login ...
+                      </p>
+                    </div>
+                  )}
                   <Form role="form">
-                    <FormGroup className="mb-3">
+                    <FormGroup>
                       <InputGroup className="input-group-alternative">
                         <InputGroupAddon addonType="prepend">
                           <InputGroupText>
                             <i
-                              className="fa fa-envelope"
+                              className="fa fa-unlock-alt"
                               aria-hidden="true"
                             ></i>
                           </InputGroupText>
                         </InputGroupAddon>
                         <Input
-                          placeholder="E-mail"
-                          type="email"
-                          autoComplete="new-email"
-                          value={email}
+                          placeholder="Senha"
+                          type={visiblePass === true ? 'text' : 'password'}
+                          autoComplete="new-password"
+                          value={password}
                           onChange={(e) => {
-                            setEmail(e.target.value)
+                            setPassword(e.target.value)
                           }}
                         />
+                        <InputGroupAddon>
+                          <InputGroupText>
+                            {visiblePass === false ? (
+                              <a onClick={(e) => handleVisiblePassword(e)}>
+                                <i className="fa fa-eye"></i>
+                              </a>
+                            ) : (
+                              <a onClick={(e) => handleVisiblePassword(e)}>
+                                <i className="fa fa-eye-slash"></i>
+                              </a>
+                            )}
+                          </InputGroupText>
+                        </InputGroupAddon>
+                      </InputGroup>
+                    </FormGroup>
+                    <FormGroup>
+                      <InputGroup className="input-group-alternative">
+                        <InputGroupAddon addonType="prepend">
+                          <InputGroupText>
+                            <i
+                              className="fa fa-unlock-alt"
+                              aria-hidden="true"
+                            ></i>
+                          </InputGroupText>
+                        </InputGroupAddon>
+                        <Input
+                          placeholder="Confirmar senha"
+                          type={
+                            visibleConfirmPass === true ? 'text' : 'password'
+                          }
+                          autoComplete="new-password"
+                          value={confirmPassword}
+                          onChange={(e) => {
+                            setConfirmPassword(e.target.value)
+                          }}
+                        />
+                        <InputGroupAddon>
+                          <InputGroupText>
+                            {visibleConfirmPass === false ? (
+                              <a
+                                onClick={(e) => handleVisibleConfirmPassword(e)}
+                              >
+                                <i className="fa fa-eye"></i>
+                              </a>
+                            ) : (
+                              <a
+                                onClick={(e) => handleVisibleConfirmPassword(e)}
+                              >
+                                <i className="fa fa-eye-slash"></i>
+                              </a>
+                            )}
+                          </InputGroupText>
+                        </InputGroupAddon>
                       </InputGroup>
                     </FormGroup>
 
@@ -92,16 +180,9 @@ export default function Forgot() {
                         color="primary"
                         type="button"
                         onClick={(e) => handleSubmit(e)}
-                        disabled={disabled}
                       >
-                        Enviar link
+                        Confirmar
                       </Button>
-                      <a
-                        className="text-light"
-                        onClick={(e) => history.push('/admin/login')}
-                      >
-                        <small>Voltar</small>
-                      </a>
                     </div>
                   </Form>
                 </CardBody>
