@@ -3,68 +3,34 @@ import MaterialTable from 'material-table'
 import Swal from 'sweetalert2'
 
 import { tableIcons } from '../../../utils/TableIcons'
-
-const data = [
-  {
-    name: 'Lucas de Moraes Souza',
-    plate: 'BRA2E19',
-    input: '2021-05-25 12:55:03',
-    output: '2021-05-25 13:32:22',
-    image:
-      'http://res.cloudinary.com/tgcontrole/image/upload/v1621994103/jnr2iqm40wlvsgb84bwq.jpg',
-  },
-  {
-    name: 'Bianca Alves Barbosa',
-    plate: 'RIO2A18',
-    input: '2021-05-25 13:32:03',
-    output: '2021-05-25 14:32:22',
-    image:
-      'http://res.cloudinary.com/tgcontrole/image/upload/v1621994103/jnr2iqm40wlvsgb84bwq.jpg',
-  },
-  {
-    name: 'Guilherme Cossari',
-    plate: 'BRB5423',
-    input: '2021-05-25 13:55:03',
-    output: '2021-05-25 15:32:22',
-    image:
-      'http://res.cloudinary.com/tgcontrole/image/upload/v1621994103/jnr2iqm40wlvsgb84bwq.jpg',
-  },
-  {
-    name: 'Angelina Melare',
-    plate: 'NZN1E19',
-    input: '2021-05-25 14:05:03',
-    output: '2021-05-25 22:32:22',
-    image:
-      'http://res.cloudinary.com/tgcontrole/image/upload/v1621994103/jnr2iqm40wlvsgb84bwq.jpg',
-  },
-  {
-    name: 'André Souza',
-    plate: 'BOR2A19',
-    input: '2021-05-25 18:55:03',
-    output: '2021-05-25 22:22:22',
-    image:
-      'http://res.cloudinary.com/tgcontrole/image/upload/v1621994103/jnr2iqm40wlvsgb84bwq.jpg',
-  },
-]
+import api from '../../../services/api'
 
 export default function Control() {
   const tableRef = createRef()
 
   const handleOpenModal = (dados) => {
+    let prop =
+      dados.proprietario == 'aluno'
+        ? `<div class='text-left'><br><strong>Proprietário: </strong> <br> <br>` +
+          `<ul><li><strong>Nome</strong> : ${dados.nome} </li><br> ` +
+          `<li><strong>CPF</strong> : ${dados.cpf} </li><br>` +
+          `<li><strong>Curso</strong> : ${dados.curso} </li><br> ` +
+          `<li><strong>Período</strong> : ${dados.periodo} </li><br>` +
+          `<li><strong>Semestre</strong>: ${dados.semestre} </li></ul><br><br>`
+        : `<div class='text-left'><br><strong>Proprietário: </strong> <br> <br>` +
+          `<ul><li><strong>Nome</strong> : ${dados.nome} </li><br> ` +
+          `<li><strong>CPF</strong> : ${dados.cpf} </li><br>` +
+          `<li><strong>Função</strong> : ${dados.funcao} </li><br> `
+
     Swal.fire({
       title: `<strong>Informações Gerais</strong>`,
       html:
-        `<div class='text-left'><br><strong>Proprietário: </strong> <br> <br>` +
-        `<ul><li><strong>Nome</strong> : ${dados.nome} </li><br> ` +
-        `<li><strong>CPF</strong> : ${dados.cpf} </li><br>` +
-        `<li><strong>Curso</strong> : ${dados.curso} </li><br> ` +
-        `<li><strong>Período</strong> : ${dados.periodo} </li><br>` +
-        `<li><strong>Semestre</strong>: ${dados.semestre} </li></ul><br><br>` +
+        prop +
         `<strong>veiculo:</strong> <br> <br>` +
-        `<ul><li><strong>Placa</strong> : BRA2E19 </li><br> ` +
-        `<li><strong>marca</strong> : Volkswagen </li><br> ` +
-        `<li><strong>modelo</strong> : Fox 2014</li> <br> ` +
-        `<li><strong>cor</strong> : cinza <br> </li></ul></div>`,
+        `<ul><li><strong>Placa</strong> : ${dados.placa} </li><br> ` +
+        `<li><strong>marca</strong> : ${dados.marca} </li><br> ` +
+        `<li><strong>modelo</strong> : ${dados.modelo}</li> <br> ` +
+        `<li><strong>cor</strong> : ${dados.cor} <br> </li></ul></div>`,
       confirmButtonText: 'Fechar',
     })
   }
@@ -77,37 +43,65 @@ export default function Control() {
           columns={[
             {
               title: 'Proprietário',
-              field: 'name',
+              field: 'nome',
               type: 'string',
               filtering: false,
             },
             {
               title: 'Placa',
-              field: 'plate',
+              field: 'placa',
               type: 'string',
               filtering: false,
             },
             {
               title: 'Entrada',
-              field: 'input',
+              field: 'entrada',
               type: 'datetime',
             },
             {
               title: 'Saida',
-              field: 'output',
+              field: 'saida',
               type: 'datetime',
             },
             {
               title: '',
               align: 'right',
               render: (rowData) => (
-                <a href={rowData.image} target="_blank">
+                <a href={rowData.imagem} target="_blank">
                   Visualizar Imagem
                 </a>
               ),
             },
           ]}
-          data={data}
+          data={(query) =>
+            new Promise((resolve, reject) => {
+              console.log(query)
+              let field = ''
+              let filterField = ''
+              let filters = ''
+              if (query.orderBy !== undefined) field = query.orderBy.field
+              if (query.filters.length > 0) {
+                filterField = query.filters[0].column.field
+                filters = query.filters[0].value
+              }
+
+              api
+                .get(
+                  `/control?per_page=${query.pageSize}&page=${
+                    query.page + 1
+                  }&search=${query.search}&columnOrder=${field}&order=${
+                    query.orderDirection
+                  }&filters=${filters}&filterField=${filterField}`
+                )
+                .then((result) => {
+                  resolve({
+                    data: result.data.control,
+                    page: query.page,
+                    totalCount: result.data.total,
+                  })
+                })
+            })
+          }
           title="Listagem de controle"
           icons={tableIcons}
           options={{
@@ -118,13 +112,7 @@ export default function Control() {
               icon: tableIcons.ListIcon,
               tooltip: 'Visualizar Dados',
               onClick: (event, rowData) => {
-                handleOpenModal({
-                  nome: 'Lucas de Moraes Souza',
-                  cpf: '41222365782',
-                  curso: 'Eventos',
-                  periodo: 'noite',
-                  semestre: '2 semestre',
-                })
+                handleOpenModal(rowData)
               },
             },
           ]}

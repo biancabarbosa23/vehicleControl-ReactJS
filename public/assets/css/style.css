@@ -1096,6 +1096,14 @@ aside.vehicle .header-vehicle a {
   animation-delay: -1s;
 }
 
+.dropdown-header strong {
+  font-size: 1.6rem !important;
+}
+
+.c-header-nav .dropdown-item {
+  font-size: 1.2rem;
+}
+
 @-webkit-keyframes sk-bounce {
   0%,
   100% {

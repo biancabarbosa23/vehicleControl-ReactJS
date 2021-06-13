@@ -3,37 +3,7 @@ import MaterialTable from 'material-table'
 import Swal from 'sweetalert2'
 
 import { tableIcons } from '../../../utils/TableIcons'
-
-const data = [
-  {
-    plate: 'BRA2E19',
-    marca: 'Volkswagen',
-    modelo: 'Fox 2014',
-    cor: 'Cinza',
-    name: 'Lucas de Moraes Souza',
-  },
-  {
-    plate: 'RIO2A18',
-    marca: 'Volkswagen',
-    modelo: 'Corsa',
-    cor: 'Preto',
-    name: 'Bianca Alves Barbosa',
-  },
-  {
-    plate: 'BRB5423',
-    marca: 'Hyundai',
-    modelo: 'HB20',
-    cor: 'Branco',
-    name: 'Guilherme Cossari',
-  },
-  {
-    plate: 'NZN1E19',
-    marca: 'Hyundai',
-    modelo: 'Santa fé',
-    cor: 'preta',
-    name: 'Angelina Melare',
-  },
-]
+import api from '../../../services/api'
 
 export default function Veiculos() {
   const tableRef = createRef()
@@ -42,12 +12,17 @@ export default function Veiculos() {
     Swal.fire({
       title: `<strong>Informações Gerais</strong>`,
       html:
-        `<div class='text-left'><br><strong>Proprietário: </strong> <br> <br>` +
-        `<ul><li><strong>Nome</strong> : ${dados.nome} </li><br> ` +
-        `<li><strong>CPF</strong> : ${dados.cpf} </li><br>` +
-        `<li><strong>Curso</strong> : ${dados.curso} </li><br> ` +
-        `<li><strong>Período</strong> : ${dados.periodo} </li><br>` +
-        `<li><strong>Semestre</strong>: ${dados.semestre} </li></ul><br><br>`,
+        dados.proprietario == 'aluno'
+          ? `<div class='text-left'><br><strong>Proprietário: </strong> <br> <br>` +
+            `<ul><li><strong>Nome</strong> : ${dados.nome} </li><br> ` +
+            `<li><strong>CPF</strong> : ${dados.cpf} </li><br>` +
+            `<li><strong>Curso</strong> : ${dados.curso} </li><br> ` +
+            `<li><strong>Período</strong> : ${dados.periodo} </li><br>` +
+            `<li><strong>Semestre</strong>: ${dados.semestre} </li></ul><br><br>`
+          : `<div class='text-left'><br><strong>Proprietário: </strong> <br> <br>` +
+            `<ul><li><strong>Nome</strong> : ${dados.nome} </li><br> ` +
+            `<li><strong>CPF</strong> : ${dados.cpf} </li><br>` +
+            `<li><strong>Função</strong> : ${dados.funcao} </li><br> `,
       confirmButtonText: 'Fechar',
     })
   }
@@ -60,7 +35,7 @@ export default function Veiculos() {
           columns={[
             {
               title: 'Placa',
-              field: 'plate',
+              field: 'placa',
               type: 'string',
               filtering: false,
             },
@@ -84,12 +59,32 @@ export default function Veiculos() {
             },
             {
               title: 'Proprietário',
-              field: 'name',
+              field: 'nome',
               type: 'string',
               filtering: false,
             },
           ]}
-          data={data}
+          data={(query) =>
+            new Promise((resolve, reject) => {
+              let field = ''
+              if (query.orderBy !== undefined) field = query.orderBy.field
+              api
+                .get(
+                  `/vehicles?per_page=${query.pageSize}&page=${
+                    query.page + 1
+                  }&search=${query.search}&columnOrder=${field}&order=${
+                    query.orderDirection
+                  }`
+                )
+                .then((result) => {
+                  resolve({
+                    data: result.data.vehicles,
+                    page: query.page,
+                    totalCount: result.data.total,
+                  })
+                })
+            })
+          }
           title="Listagem de Veículos"
           icons={tableIcons}
           options={{
@@ -98,16 +93,17 @@ export default function Veiculos() {
           actions={[
             {
               icon: tableIcons.ListIcon,
-              tooltip: 'Visualizar Dados',
+              tooltip: 'Visualizar Proprietário',
               onClick: (event, rowData) => {
-                handleOpenModal({
-                  nome: 'Lucas de Moraes Souza',
-                  cpf: '41222365782',
-                  curso: 'Eventos',
-                  periodo: 'noite',
-                  semestre: '2 semestre',
-                })
+                handleOpenModal(rowData)
               },
+            },
+            {
+              icon: tableIcons.RefreshIcon,
+              tooltip: 'Atualizar Tabela',
+              isFreeAction: true,
+              onClick: () =>
+                tableRef.current && tableRef.current.onQueryChange(),
             },
           ]}
           localization={{

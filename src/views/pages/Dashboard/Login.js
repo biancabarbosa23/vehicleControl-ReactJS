@@ -42,11 +42,6 @@ export default function Auth() {
         senha: password,
       })
 
-      if (response.data.dados.acesso != 7) {
-        alertError('Usuário não encontrado')
-        return
-      }
-
       login(response.data.token, response.data.admin, '999')
 
       history.push('/dashboard')
