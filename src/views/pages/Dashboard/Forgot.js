@@ -37,7 +37,7 @@ export default function Forgot() {
         return
       }
 
-      console.log(email)
+     
       const response = await api.post(`/admin/forgot-password`, { email })
 
       alertSuccess(response.data.success)

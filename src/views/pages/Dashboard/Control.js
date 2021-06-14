@@ -75,7 +75,7 @@ export default function Control() {
           ]}
           data={(query) =>
             new Promise((resolve, reject) => {
-              console.log(query)
+              
               let field = ''
               let filterField = ''
               let filters = ''
@@ -114,6 +114,13 @@ export default function Control() {
               onClick: (event, rowData) => {
                 handleOpenModal(rowData)
               },
+            },
+            {
+              icon: tableIcons.RefreshIcon,
+              tooltip: 'Atualizar Tabela',
+              isFreeAction: true,
+              onClick: () =>
+                tableRef.current && tableRef.current.onQueryChange(),
             },
           ]}
           localization={{

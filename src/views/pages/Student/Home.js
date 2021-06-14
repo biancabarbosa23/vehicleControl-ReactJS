@@ -44,7 +44,7 @@ export default function Home() {
 
       setVehicles(responseVehicle.data)
     } catch (response) {
-      console.log(response)
+    
       alertError(response.data.error)
     }
   }
