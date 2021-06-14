@@ -20,11 +20,11 @@ $ git clone https://github.com/biancabarbosa23/vehicleControl-ReactJS.git
 ```
 
 ```
-$ npm install
+$ yarn install
 ```
 
 ```
-$ npm start
+$ yarn start
 ```
 
 ### Configuração
